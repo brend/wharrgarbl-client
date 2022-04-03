@@ -3,8 +3,9 @@
     <h1>It is Wharrgarbl!</h1>
     <h3>Please enter your guess below</h3>
     <div v-if="!done">
-      <input v-model="guess">
+      <input ref="guess" v-model="guess">
       <button @click="sendGuess()">Guess!</button>
+      <p v-if="errorMessage" class="error">{{errorMessage}}</p>
     </div>
     <div v-if="done">
       <button @click="reset()">Play another game</button>
@@ -32,6 +33,7 @@ export default {
     return {
       guess: '',
       done: false,
+      errorMessage: null,
       items: [],
       state: {
         hints: {},
@@ -49,7 +51,24 @@ export default {
       }
     },
     async sendGuess() {
-      const guess = this.guess;
+      const guess = this.guess.toUpperCase();
+
+      if (guess.length != 5) {
+        this.errorMessage = "Please enter a 5-letter word";
+        return;
+      }
+
+      if (guess.match(/(.).*\1/)) {
+        this.errorMessage = "Your guess mustn't contain duplicate letters";
+        return;
+      }
+
+      if (!guess.match(/^[A-Z]{5}$/)) {
+        this.errorMessage = "Please use only the letters A through Z";
+        return;
+      }
+
+      this.errorMessage = null;
 
       this.items.push({text: guess});
 
@@ -68,6 +87,9 @@ export default {
         this.items.push({text: 'Congratulations! You guessed the word!'});
         this.done = true;
       }
+
+      this.guess = null;
+      this.focusInput("guess");
     },
     color(item, charIndex) {
 
@@ -92,6 +114,9 @@ export default {
       this.guess = null;
       this.state = this.defaultState;
       this.done = false;
+    },
+    focusInput: function ( inputRef ) {
+      this.$refs[inputRef].focus();
     },
   },
 }
