@@ -1,20 +1,22 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <wharrgarbl-game />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import WharrgarblGame from './components/WharrgarblGame.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    WharrgarblGame
   }
 }
 </script>
 
 <style>
+body {
+  background-color: #F7F7F7;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
