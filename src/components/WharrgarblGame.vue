@@ -73,11 +73,8 @@ export default {
       this.items.push({text: guess});
 
       const request = {guess: guess, state: this.state};
-      const response = await axios.post('http://localhost:8081', request);
       
-      const data = response.data;
-
-      console.log("received response: ", data);
+      const data = await this.query(request);
 
       this.state = data.state;
       this.items.pop();
@@ -90,6 +87,20 @@ export default {
 
       this.guess = null;
       this.focusInput("guess");
+    },
+    async query(request) {
+      try {
+        // const response = await axios.post('http://localhost:8080', request);
+        //const response = await axios.post('http://192.168.0.192:8080', request);
+        const response = await axios.post('https://wharrapi.herokuapp.com', request);
+
+        console.log('received response', response);
+
+        return response.data;
+      } catch (ex) {
+        console.error('oh boy', ex);
+        return null;
+      }
     },
     color(item, charIndex) {
 
