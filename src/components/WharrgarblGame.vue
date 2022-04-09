@@ -1,6 +1,9 @@
 <template>
   <div class="hello">
     <h1>It is Wharrgarbl!</h1>
+    <p>The rules are the same as the famous game Wordle by Josh Wardle, with one change:</p>
+    <p><em>No duplicate letters allowed</em>, i.e. FLOAT is ok, FLEET is not</p>
+    <p>Letters that do not appear in the word are <span class="no"><b>gray</b></span>, letters that do appear but are in the wrong place are <span class="elsewhere"><b>yellow</b></span>, and letters that are already in the correct place are <span class="yes"><b>green</b></span>.</p>
     <h3>Please enter your guess below</h3>
     <div v-if="!done">
       <input ref="guess" v-model="guess">
@@ -76,6 +79,12 @@ export default {
       
       const data = await this.query(request);
 
+      if (data.error) {
+        this.errorMessage = data.error;
+        this.items.pop();
+        return;
+      }
+
       this.state = data.state;
       this.items.pop();
       this.items.push({text: guess, hints: data.state.hints});
@@ -93,8 +102,6 @@ export default {
         // const response = await axios.post('http://localhost:8080', request);
         //const response = await axios.post('http://192.168.0.192:8080', request);
         const response = await axios.post('https://wharrapi.herokuapp.com', request);
-
-        console.log('received response', response);
 
         return response.data;
       } catch (ex) {
