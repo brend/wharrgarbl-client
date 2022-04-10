@@ -1,13 +1,16 @@
 <template>
   <div class="hello">
     <h1>It is Wharrgarbl!</h1>
-    <p>The rules are the same as the famous game Wordle by Josh Wardle, with one change:</p>
+    <p>The rules are the same as the famous game Wordle by Josh Wardle, with some changes:</p>
     <p><em>No duplicate letters allowed</em>, i.e. FLOAT is ok, FLEET is not</p>
+    <p>You may <em>guess as often as you like</em></p>
     <p>Letters that do not appear in the word are <span class="no"><b>gray</b></span>, letters that do appear but are in the wrong place are <span class="elsewhere"><b>yellow</b></span>, and letters that are already in the correct place are <span class="yes"><b>green</b></span>.</p>
     <h3>Please enter your guess below</h3>
     <div v-if="!done">
       <input ref="guess" v-model="guess">
       <button @click="sendGuess()">Guess!</button>
+      <button v-if="turnCount >= 3" @click="cheat = !cheat">I am a cheat and I want to see the secret word</button>
+      <p v-if="cheat">The secret word is {{hiddenWord}}<span class="yes"></span>. Did knowing that make you happy?</p>
       <p v-if="errorMessage" class="error">{{errorMessage}}</p>
     </div>
     <div v-if="done">
@@ -37,11 +40,16 @@ export default {
       guess: '',
       done: false,
       errorMessage: null,
+      cheat: false,
+      hiddenWord: '',
+      turnCount: 0,
       items: [],
       state: {
+        hiddenWord: null,
         hints: {},
       },
       defaultState: {
+        hiddenWord: null,
         hints: {},
       },
     };
@@ -86,6 +94,7 @@ export default {
       }
 
       this.state = data.state;
+      this.hiddenWord = data.hiddenWord;
       this.items.pop();
       this.items.push({text: guess, hints: data.state.hints});
 
@@ -94,6 +103,7 @@ export default {
         this.done = true;
       }
 
+      this.turnCount += 1;
       this.guess = null;
       this.focusInput("guess");
     },
@@ -132,6 +142,7 @@ export default {
       this.guess = null;
       this.state = this.defaultState;
       this.done = false;
+      this.turnCount = 0;
     },
     focusInput: function ( inputRef ) {
       this.$refs[inputRef].focus();
