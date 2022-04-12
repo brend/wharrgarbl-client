@@ -19,12 +19,7 @@
 
     <ul>
       <li v-for="(item, index) in items" :key="index">
-        <span v-for="(c, ci) in item.text.split('')" 
-          :key="ci"
-          :class="color(item, ci)"
-        >
-          {{c}}
-        </span>
+        <word-row :word="item.text" :hints="item.hints"></word-row>
       </li>
     </ul>
   </div>
@@ -32,9 +27,11 @@
 
 <script>
 import axios from 'axios';
+import WordRow from './WordRow.vue';
 
 export default {
   name: 'WharrgarblGame',
+  components: {WordRow},
   data() {
     return {
       guess: '',
@@ -55,12 +52,6 @@ export default {
     };
   },
   methods: {
-    async debug() {
-      for (const word of ['ALBUM', 'THEIR', 'KNOWS', 'PODGY']) {
-        this.guess = word;
-        await this.sendGuess();
-      }
-    },
     async sendGuess() {
       const guess = this.guess.toUpperCase();
 
@@ -84,7 +75,6 @@ export default {
       this.items.push({text: guess});
 
       const request = {guess: guess, state: this.state};
-      
       const data = await this.query(request);
 
       if (data.error) {
@@ -119,24 +109,6 @@ export default {
         return null;
       }
     },
-    color(item, charIndex) {
-
-      if (!(item.hints)) {
-        return {};
-      }
-
-      const hint = item.hints[item.text[charIndex]]
-
-      if (hint['no']) {
-        return {no: true};
-      } else if (hint['yes']) {
-        return {yes: true};
-      } else if (hint['elsewhere']) {
-        return {elsewhere: true};
-      } else {
-        return {error: true};
-      }
-    },
     reset() {
       this.items = [];
       this.guess = null;
@@ -153,18 +125,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.no {
-  color: darkgray;
-}
-.yes {
-  color: green;
-}
-.elsewhere {
-  color: rgb(206, 186, 28);
-}
-.error {
-  color: red;
-}
 ul {
   font-weight: 700;
   font-size: x-large;

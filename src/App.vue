@@ -25,4 +25,16 @@ body {
   color: #2c3e50;
   margin-top: 60px;
 }
+.no {
+  color: darkgray;
+}
+.yes {
+  color: green;
+}
+.elsewhere {
+  color: rgb(206, 186, 28);
+}
+.error {
+  color: red;
+}
 </style>
