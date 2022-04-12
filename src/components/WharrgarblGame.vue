@@ -5,6 +5,13 @@
     <p><em>No duplicate letters allowed</em>, i.e. FLOAT is ok, FLEET is not</p>
     <p>You may <em>guess as often as you like</em></p>
     <p>Letters that do not appear in the word are <span class="no"><b>gray</b></span>, letters that do appear but are in the wrong place are <span class="elsewhere"><b>yellow</b></span>, and letters that are already in the correct place are <span class="yes"><b>green</b></span>.</p>
+    <form>
+      <label for="cars">Choose your language: </label>
+    <select name="cars" id="cars" v-model="lang">
+      <option value="en">🇺🇸 English</option>
+      <option value="de">🇩🇪 Deutsch</option>
+    </select>
+    </form>
     <h3>Please enter your guess below</h3>
     <div v-if="!done">
       <input ref="guess" v-model="guess">
@@ -34,6 +41,7 @@ export default {
   components: {WordRow},
   data() {
     return {
+      lang: 'en',
       guess: '',
       done: false,
       errorMessage: null,
@@ -74,8 +82,10 @@ export default {
 
       this.items.push({text: guess});
 
-      const request = {guess: guess, state: this.state};
+      const request = {guess: guess, state: this.state, lang: this.lang};
+      console.log('sending', request);
       const data = await this.query(request);
+      console.log('received', data);
 
       if (data.error) {
         this.errorMessage = data.error;
@@ -99,9 +109,9 @@ export default {
     },
     async query(request) {
       try {
-        // const response = await axios.post('http://localhost:8080', request);
-        //const response = await axios.post('http://192.168.0.192:8080', request);
-        const response = await axios.post('https://wharrapi.herokuapp.com', request);
+        let host = process.env.VUE_APP_HOST ?? 'https://wharrapi.herokuapp.com';
+        console.log('host', host);
+        const response = await axios.post(`${host}/`, request);
 
         return response.data;
       } catch (ex) {
