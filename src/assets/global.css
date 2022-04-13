@@ -2,3 +2,181 @@
  * This file contains global styles 
  * that are imported in app.js
 */
+/* Main */
+* { 
+  margin:0; 
+  padding:0; 
+  box-sizing:border-box; 
+  font-size: 16px;
+}
+
+body{
+  font-family: sans-serif;
+  background: rgba(79, 93, 117, 0.6);
+} 
+
+h1 {
+  font-size: 42px;
+  font-family: sans-serif;
+}
+
+h3 {
+  font-size: 26px;
+}
+
+.mainBody {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.info {
+  position: absolute;
+  display: flex;
+  right: 0;
+  margin: 20px 50px;
+}
+
+.info > p {
+  font-size: 20px;
+  padding: 0 10px;
+}
+
+.header {
+  margin: 30px 0;
+}
+
+.title {
+  text-align: center;
+  color:#F4F1DE;
+}
+
+.container {
+  display: flex;
+  width: 80%;
+}
+
+.guessView,
+.historyView {
+  background: #F4F1DE;
+  box-shadow: 2px 6px 10px 4px rgba(0, 0, 0, 0.32);
+}
+
+.guessView {
+  margin-right: 97px;
+  width: 65%;
+}
+
+.guessField {
+  margin: 0 auto;
+  margin-top: 18px;
+  position: relative;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  width: 65%;
+}
+
+.guessField > .guess {
+  color: rgba(0, 0, 0, 0.8);
+  background: #F7F7F7;
+  border: 3px solid #4F5D75;
+  width: 96%;
+  padding: 8px 5px;
+  outline: none;
+}
+
+.guessField > .guess::placeholder {
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.guessField > .submit {
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: #F7FFF7;
+  background: #4ECDC4;
+  border: 3px solid #4F5D75;
+  padding: 8px 10px;
+  cursor: pointer;
+}
+
+.latestGuess {
+  list-style: none;
+  margin: 30px 0;
+}
+
+.latestGuess > li {
+  margin: 10px auto;
+  display: flex;
+  justify-content: space-around;
+  width: 70%;
+}
+
+.latestGuess > li > .letter {
+  background: #F7FFF7;
+  border: 6px solid #4F5D75;
+  box-sizing: border-box;
+  margin-right: 6px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 42px;
+  line-height: 65px;
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+  text-align: center;
+}
+
+/* the following definisitons will change the color of the letter accordingly to the logic */
+
+.elsewhere {
+  color: #FFE66D;
+}
+
+.no {
+  color: #BFC0C0;
+}
+
+.yes {
+  color: #4ECDC4;
+}
+
+.historyView {
+    width: 40%;
+}
+
+.historyList {
+  margin: 10% auto;
+  background: rgba(191, 192, 192, 0.5);
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.25);
+  width: 80%;
+  padding: 10px 5px;
+  column-count: 4;
+}
+
+.historyList > li {
+  list-style: none;
+  overflow: hidden;
+  text-align: center;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background: #C4C4C4;
+  text-align: center;
+  width: 100%;
+  height: 40px;
+}
+
+.footer > p { 
+  margin: 10px auto;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 14px;
+
+  /* Background */
+  color: rgba(247, 255, 247, 0.6);
+}
+

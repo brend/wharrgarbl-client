@@ -1,44 +1,46 @@
 <template>
-  <div class="hello">
-    <h1>It is Wharrgarbl!</h1>
-    <p>The rules are the same as the famous game Wordle by Josh Wardle, with some changes:</p>
-    <p><em>No duplicate letters allowed</em>, i.e. FLOAT is ok, FLEET is not</p>
-    <p>You may <em>guess as often as you like</em></p>
-    <p>Letters that do not appear in the word are <span class="no"><b>gray</b></span>, letters that do appear but are in the wrong place are <span class="elsewhere"><b>yellow</b></span>, and letters that are already in the correct place are <span class="yes"><b>green</b></span>.</p>
-    <form>
-      <label for="cars">Choose your language: </label>
-    <select name="cars" id="cars" v-model="lang">
-      <option value="en">🇺🇸 English</option>
-      <option value="de">🇩🇪 Deutsch</option>
-    </select>
-    </form>
-    <h3>Please enter your guess below</h3>
-    <div v-if="!done">
-      <input ref="guess" v-model="guess">
-      <button @click="sendGuess()">Guess!</button>
-      <button v-if="turnCount >= 3" @click="cheat = !cheat">I am a cheat and I want to see the secret word</button>
-      <p v-if="cheat">The secret word is {{hiddenWord}}<span class="yes"></span>. Did knowing that make you happy?</p>
-      <p v-if="errorMessage" class="error">{{errorMessage}}</p>
+<div>
+  <div class="mainBody">
+    <div class="header">
+      <h1 class="title">It is Wharrgarbl!</h1>
+      <h3>Please enter your guess below</h3>
     </div>
-    <div v-if="done">
-      <button @click="reset()">Play another game</button>
+    <div class="container">
+      <div class="guessView">
+        <div class="guessField">
+          <input class="guess" ref="guess" v-model="guess" placeholder="Your guess here...">
+          <button class="submit" @click="sendGuess()">Guess!</button>
+          <button v-if="turnCount >= 3" @click="cheat = !cheat">I am a cheat and I want to see the secret word</button>
+          <button v-if="done" @click="reset()">Play another game</button>
+        </div>
+        <ul class="latestGuess">
+          <li v-for="(item, index) in recentItems" :key="index">
+            <word-row :word="item.text" :hints="item.hints"></word-row>
+          </li>
+        </ul>
+      </div>
+      <history-view :items="items" />
     </div>
-
-    <ul>
-      <li v-for="(item, index) in items" :key="index">
-        <word-row :word="item.text" :hints="item.hints"></word-row>
-      </li>
-    </ul>
   </div>
+  <div class="footer">
+    <p>© 2022 Walden Creations - Privacy</p>
+  </div>
+  <div v-if="!done">
+    <p v-if="cheat">The secret word is {{hiddenWord}}<span class="yes"></span>. Did knowing that make you happy?</p>
+    <p v-if="errorMessage" class="error">{{errorMessage}}</p>
+  </div>
+</div>
+
 </template>
 
 <script>
 import axios from 'axios';
 import WordRow from './WordRow.vue';
+import HistoryView from './HistoryView.vue';
 
 export default {
   name: 'WharrgarblGame',
-  components: {WordRow},
+  components: {WordRow, HistoryView},
   data() {
     return {
       lang: 'en',
@@ -129,6 +131,11 @@ export default {
     focusInput: function ( inputRef ) {
       this.$refs[inputRef].focus();
     },
+  },
+  computed: {
+    recentItems() {
+      return this.items.slice(-6);
+    }
   },
 }
 </script>

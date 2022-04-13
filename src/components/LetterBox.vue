@@ -1,5 +1,5 @@
 <template>
-  <span :class="color()">{{letter}}</span>
+    <span class="letter" :class="color()">{{letter}}</span>
 </template>
 
 <script>

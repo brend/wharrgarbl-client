@@ -1,14 +1,17 @@
 <template>
+  <tool-bar />
   <wharrgarbl-game />
 </template>
 
 <script>
 import WharrgarblGame from './components/WharrgarblGame.vue'
+import ToolBar from './components/tool-bar.vue'
 
 export default {
   name: 'App',
   components: {
-    WharrgarblGame
+    WharrgarblGame,
+    ToolBar,
   }
 }
 </script>
@@ -23,7 +26,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 .no {
   color: darkgray;
