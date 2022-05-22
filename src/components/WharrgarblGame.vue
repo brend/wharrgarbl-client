@@ -91,6 +91,10 @@ export default {
       const data = await this.query(request);
       console.log('received', data);
 
+      if (!data) {
+        return;
+      }
+
       if (data.error) {
         this.showMessage(data.error);
         this.items.pop();
@@ -113,13 +117,13 @@ export default {
     },
     async query(request) {
       try {
-        let host = process.env.VUE_APP_HOST ?? 'https://wharrapi.herokuapp.com';
-        console.log('host', host);
+        const host = process.env.VUE_APP_HOST ?? 'https://wharrapi.herokuapp.com';
         const response = await axios.post(`${host}/`, request);
 
         return response.data;
       } catch (ex) {
-        console.error('oh boy', ex);
+        console.error(ex);
+        this.showMessage("An error occurred contacting the host");
         return null;
       }
     },
