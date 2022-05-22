@@ -10,7 +10,7 @@
         <div class="guessField">
           <input class="guess" ref="guess" v-model="guess" placeholder="Your guess here...">
           <button class="submit" @click="sendGuess()">Guess!</button>
-          <button v-if="turnCount >= 3" @click="cheat = !cheat">I am a cheat and I want to see the secret word</button>
+          <button v-if="turnCount >= 3" @click="showCheat()">I am a cheat and I want to see the secret word</button>
           <button v-if="done" @click="reset()">Play another game</button>
         </div>
         <ul class="latestGuess">
@@ -25,10 +25,11 @@
   <div class="footer">
     <p>© 2022 Walden Creations - Privacy</p>
   </div>
-  <div v-if="!done">
-    <p v-if="cheat">The secret word is {{hiddenWord}}<span class="yes"></span>. Did knowing that make you happy?</p>
-    <p v-if="errorMessage" class="error">{{errorMessage}}</p>
-  </div>
+
+  <message-box
+    :show="errorMessage"
+    :text="errorMessage"
+  ></message-box>
 </div>
 
 </template>
@@ -37,13 +38,14 @@
 import axios from 'axios';
 import WordRow from './WordRow.vue';
 import HistoryView from './HistoryView.vue';
+import MessageBox from './MessageBox.vue';
 
 export default {
   name: 'WharrgarblGame',
-  components: {WordRow, HistoryView},
+  props: ["lang"],
+  components: {WordRow, HistoryView, MessageBox},
   data() {
     return {
-      lang: 'en',
       guess: '',
       done: false,
       errorMessage: null,
@@ -66,17 +68,17 @@ export default {
       const guess = this.guess.toUpperCase();
 
       if (guess.length != 5) {
-        this.errorMessage = "Please enter a 5-letter word";
+        this.showMessage("Please enter a 5-letter word");
         return;
       }
 
       if (guess.match(/(.).*\1/)) {
-        this.errorMessage = "Your guess mustn't contain duplicate letters";
+        this.showMessage("Your guess mustn't contain duplicate letters");
         return;
       }
 
       if (!guess.match(/^[A-Z]{5}$/)) {
-        this.errorMessage = "Please use only the letters A through Z";
+        this.showMessage("Please use only the letters A through Z");
         return;
       }
 
@@ -90,7 +92,7 @@ export default {
       console.log('received', data);
 
       if (data.error) {
-        this.errorMessage = data.error;
+        this.showMessage(data.error);
         this.items.pop();
         return;
       }
@@ -101,7 +103,7 @@ export default {
       this.items.push({text: guess, hints: data.state.hints});
 
       if (guess == data.hiddenWord) {
-        this.items.push({text: 'Congratulations! You guessed the word!'});
+        this.showMessage('Congratulations! You guessed the word!');
         this.done = true;
       }
 
@@ -130,6 +132,15 @@ export default {
     },
     focusInput: function ( inputRef ) {
       this.$refs[inputRef].focus();
+    },
+    showMessage(text) {
+      this.errorMessage = text;
+      setTimeout(() => {
+        this.errorMessage = "";
+      }, 2000);
+    },
+    showCheat() {
+      this.showMessage(`The secret word is "${this.hiddenWord}". Did knowing that make you happy?`)
     },
   },
   computed: {

@@ -1,6 +1,6 @@
 <template>
-  <tool-bar />
-  <wharrgarbl-game />
+  <tool-bar v-model="language" />
+  <wharrgarbl-game :lang="language" />
 </template>
 
 <script>
@@ -12,6 +12,16 @@ export default {
   components: {
     WharrgarblGame,
     ToolBar,
+  },
+  data() {
+    return {
+      language: "de",
+    };
+  },
+  watch: {
+    language(val) {
+      console.log(val);
+    }
   }
 }
 </script>
