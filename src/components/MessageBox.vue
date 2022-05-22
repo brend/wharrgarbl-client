@@ -6,7 +6,7 @@
     >
       
         <div>
-          <h1>{{text}}</h1>
+          <h1>{{displayText}}</h1>
         </div>
     </div>
   </Transition>
@@ -16,6 +16,22 @@
 export default {
     name: "MessageBox",
     props: ["text", "show"],
+    data() {
+      return {
+        displayText: "",
+      };
+    },
+    watch: {
+      text(val) {
+        if (!val) {
+          setTimeout(() => {
+            this.displayText = val;
+          }, 500);
+        } else {
+          this.displayText = val;
+        }
+      },
+    },
 }
 </script>
 
