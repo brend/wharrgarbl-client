@@ -2,7 +2,7 @@
 <div>
   <div class="mainBody">
     <div class="header">
-      <h1 class="title">It is Wharrgarbl!</h1>
+      <h1 class="title">Welcome to Kinder Words!</h1>
       <h3>Please enter your guess below</h3>
     </div>
     <div class="container">
