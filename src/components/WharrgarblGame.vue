@@ -24,7 +24,7 @@
     </div>
   </div>
   <div class="footer">
-    <p>© 2022 Walden Creations - Privacy</p>
+    <p>Privacy Policy: this application does not store or gather any kind of user information</p>
   </div>
 
   <message-box
