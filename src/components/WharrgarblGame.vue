@@ -51,6 +51,7 @@ export default {
       guess: '',
       done: false,
       errorMessage: null,
+      working: false,
       cheat: false,
       hiddenWord: '',
       turnCount: 0,
@@ -89,8 +90,10 @@ export default {
       this.items.push({text: guess});
 
       const request = {guess: guess, state: this.state, lang: this.lang};
+      this.working = true;
       console.log('sending', request);
       const data = await this.query(request);
+      this.working = false;
       console.log('received', data);
 
       if (!data) {
@@ -179,6 +182,12 @@ export default {
   watch: {
     lang() {
       this.reset();
+    },
+
+    working(val) {
+      console.log('error', val ? "Please wait..." : "");
+      
+      this.errorMessage = val ? "Please wait..." : "";
     },
   }
 }
