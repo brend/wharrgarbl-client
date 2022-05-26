@@ -82,10 +82,12 @@ h3 {
   width: 96%;
   padding: 8px 5px;
   outline: none;
+  text-transform: uppercase;
 }
 
 .guessField > .guess::placeholder {
   color: rgba(0, 0, 0, 0.3);
+  text-transform: none;
 }
 
 .guessField > .submit {
@@ -124,6 +126,10 @@ h3 {
   width: 80px;
   height: 80px;
   text-align: center;
+}
+
+.alphabetList li {
+  display: inline;
 }
 
 /* the following definisitons will change the color of the letter accordingly to the logic */

@@ -5,6 +5,7 @@
       <h1 class="title">Welcome to Kinder Words!</h1>
       <h3>Please enter your guess below</h3>
     </div>
+    <alphabet-list :hints="combinedHints"></alphabet-list>
     <div class="container">
       <div class="guessView">
         <div class="guessField">
@@ -19,7 +20,7 @@
           </li>
         </ul>
       </div>
-      <history-view :items="items" />
+      <history-view :items="items"></history-view>
     </div>
   </div>
   <div class="footer">
@@ -39,11 +40,12 @@ import axios from 'axios';
 import WordRow from './WordRow.vue';
 import HistoryView from './HistoryView.vue';
 import MessageBox from './MessageBox.vue';
+import AlphabetList from './AlphabetList.vue';
 
 export default {
   name: 'WharrgarblGame',
   props: ["lang"],
-  components: {WordRow, HistoryView, MessageBox},
+  components: { WordRow, HistoryView, MessageBox, AlphabetList },
   data() {
     return {
       guess: '',
@@ -150,7 +152,30 @@ export default {
   computed: {
     recentItems() {
       return this.items.slice(-6);
-    }
+    },
+    combinedHints() {
+      const hints = {};
+
+      for (const item of this.items) {
+        if (!item.hints) {
+          continue;
+        }
+
+        for (const letter of Object.keys(item.hints)) {
+          if (hints[letter]) {
+            if (!(hints[letter].yes || hints[letter].no)) {
+              hints[letter] = item.hints[letter];
+            }
+          } else {
+            hints[letter] = item.hints[letter];
+          }
+        }
+      }
+
+      console.log("combined", hints);
+
+      return hints;
+    },
   },
 }
 </script>
