@@ -20,6 +20,7 @@ export default {
   padding: 20px;
   position: relative;
   margin: 40px;
+  white-space: pre-line;
 }
 
 .box.arrow-top {

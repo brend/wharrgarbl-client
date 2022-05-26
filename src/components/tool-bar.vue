@@ -8,7 +8,17 @@
       <span>ℹ️</span>
       <popup-box 
         v-model="showInfo" 
-        text="How to play: Try to guess a 5-letter word. The word will contain no duplicate letters (e.g. the E in STEEL). You can guess as many times as you like. Try to break your record!"
+        text="How to play: 
+        
+        Try to guess a 5-letter word. 
+
+        No duplicate letters allowed (e.g. the E in STEEL). 
+
+        You can guess as many times as you like. 
+        
+        You can reset the game any time you like, and try to guess a new word. 
+        
+        Try to break your record!"
       ></popup-box>
     </p>
     <p>
