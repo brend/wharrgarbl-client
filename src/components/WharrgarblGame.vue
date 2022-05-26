@@ -185,9 +185,18 @@ export default {
     },
 
     working(val) {
-      console.log('error', val ? "Please wait..." : "");
-      
-      this.errorMessage = val ? "Please wait..." : "";
+      console.log("watch working", val);
+      if (val) {
+        setTimeout(() => {
+          if (this.working) {
+            console.log("timeout set message to Please wait");
+            this.errorMessage = "Please wait...";
+          }
+        }, 500);
+      } else {
+        console.log("else set message to ''");
+        this.errorMessage = "";
+      }
     },
   }
 }
