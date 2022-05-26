@@ -175,6 +175,12 @@ export default {
       return hints;
     },
   },
+
+  watch: {
+    lang() {
+      this.reset();
+    },
+  }
 }
 </script>
 
