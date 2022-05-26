@@ -1,6 +1,6 @@
 <template>
-  <tool-bar v-model="language" />
-  <wharrgarbl-game :lang="language" />
+  <tool-bar v-model="language" @reset="resetGame()" />
+  <wharrgarbl-game :lang="language" ref="game" />
 </template>
 
 <script>
@@ -17,6 +17,11 @@ export default {
     return {
       language: "de",
     };
+  },
+  methods: {
+    resetGame() {
+      this.$refs.game.reset();
+    }
   },
 }
 </script>
