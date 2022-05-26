@@ -18,11 +18,6 @@ export default {
       language: "de",
     };
   },
-  watch: {
-    language(val) {
-      console.log(val);
-    }
-  }
 }
 </script>
 

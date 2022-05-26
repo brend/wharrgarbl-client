@@ -132,6 +132,10 @@ h3 {
   display: inline;
 }
 
+.info_icon {
+  position: relative;
+}
+
 /* the following definisitons will change the color of the letter accordingly to the logic */
 
 .elsewhere {

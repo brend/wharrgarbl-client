@@ -172,8 +172,6 @@ export default {
         }
       }
 
-      console.log("combined", hints);
-
       return hints;
     },
   },
