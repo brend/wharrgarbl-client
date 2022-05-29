@@ -3,7 +3,7 @@
   <div class="mainBody">
     <div class="header">
       <h1 class="title">Welcome to Kinder Words!</h1>
-      <h3>Please enter your guess below</h3>
+      <h3>Guess a 5-letter word</h3>
     </div>
     <alphabet-list :hints="combinedHints"></alphabet-list>
     <div class="container">
