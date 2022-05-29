@@ -15,7 +15,7 @@ export default {
   },
   data() {
     return {
-      language: "de",
+      language: "en",
     };
   },
   methods: {
